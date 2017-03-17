@@ -114,13 +114,6 @@ export class AuthRouter {
     .then((user) => {
       return tokenHelpers.encodeToken(user.id);
     })
-    .then((token) => {
-      res.status(200).json({
-        success: 1,
-        token: token,
-        user: req.user
-      });
-    })
     .catch((err) => {
       res.status(401).json({
         success: 0,
