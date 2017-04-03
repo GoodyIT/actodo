@@ -70,24 +70,18 @@ function checkUser(req: IRequest, res: Response, next: NextFunction) {
      If group is private, only return actions if calling user is a member of the group   
   */
 function checkUserPermissionAccessGroup(req: IRequest, res: Response, next: NextFunction) {
-  if(req.current_group.get('private') == 1){ //if private
-    req.user.getGroupIDs().then(function(groupIDs){
-      if(groupIDs.indexOf(req.current_group.get('group_id')) == -1){
-        //If user is not a member of group
-        return res.status(403).json({
-          success: 0,
-          message: "You are not allowed to access private group"
-        }); 
-      }
-      else{
-        return next();
-      }
-    });
-  }
-  //Otherwise  -groups is public or user belongs to private group
-  else{
-    return next();
-  }
+  req.user.getGroupIDs().then(function(groupIDs){
+    if(groupIDs.indexOf(req.current_group.get('group_id')) == -1){
+      //If user is not a member of group
+      return res.status(403).json({
+        success: 0,
+        message: "User is not member of the group"
+      }); 
+    }
+    else{
+      return next();
+    }
+  });
 }
 
 
