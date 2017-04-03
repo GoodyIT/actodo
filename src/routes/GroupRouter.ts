@@ -321,26 +321,6 @@ export class GroupRouter {
     .then(action=>{
       return action.load(['creator', 'action_type']);
     })
-    .then(action_user=>{
-       if(action_user != null){
-        return res.status(405).json({
-          success: 0,
-          message: "User already completed/skipped action and is not allowed to do it again"
-        });
-       }
-       else{
-         new ActionUser({user_id: req.user.get('user_id'),
-                         action_id: req.current_action.get('action_id'),
-                         skip:true,
-                         points:0}).save()
-        .then(function(actionuser) {
-          res.status(200).json({
-            success: 1,
-            message: "The action was successfully skipped"
-          })
-        })
-       }
-     })
     .then(action=>{
       res.status(200).json({
         success: 1,
@@ -424,26 +404,6 @@ export class GroupRouter {
     .then((group) => {
       return req.current_group.related('setting').save(settingParam);
     })
-    .then(action_user=>{
-       if(action_user != null){
-        return res.status(405).json({
-          success: 0,
-          message: "User already completed/skipped action and is not allowed to do it again"
-        });
-       }
-       else{
-         new ActionUser({user_id: req.user.get('user_id'),
-                         action_id: req.current_action.get('action_id'),
-                         skip:true,
-                         points:0}).save()
-        .then(function(actionuser) {
-          res.status(200).json({
-            success: 1,
-            message: "The action was successfully skipped"
-          })
-        })
-       }
-     })
     .then(()=>{
       res.status(200).json({
         success: 1,
@@ -582,18 +542,6 @@ export class GroupRouter {
             status: 'success',
             token: tokenHelper.encodeToken(cur_user_id),
             action: action
-          });
-        })
-
-        .then((users)=>{
-          //Just Remove this code to return banned user
-          let notBanned = users.filter((user)=>{
-            return user['group_user'].get('banned') == false;
-          });
-          //   **    //
-          res.status(200).json({
-            success: 1,
-            members: notBanned
           });
         })
         .catch((err) => {

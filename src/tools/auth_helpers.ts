@@ -96,6 +96,7 @@ function CheckIfValidToken(req: IRequest, res: Response, next: NextFunction) {
 	})
 	.catch(err=>next(err));
 }
+
 module.exports = {
   generateResetToken,
 	checkValidToken

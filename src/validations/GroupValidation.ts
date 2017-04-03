@@ -31,8 +31,8 @@ export default {
         latitude: Joi.number().optional(),
         longitude: Joi.number().optional(),
         banner_image_file: Joi.any(),
-        // allow_member_action: Joi.boolean().optional(),
-        // member_action_level: Joi.number().optional()
+        allow_member_action: Joi.boolean().optional(),
+        member_action_level: Joi.number().optional()
     }).unknown(false)
   },
 
